@@ -3,9 +3,14 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from 'dotenv';
+import connectDB from './config/database';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+
+dotenv.config();
+connectDB();
 
 const app = express();
 
