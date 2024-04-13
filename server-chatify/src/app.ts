@@ -4,21 +4,24 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
-import connectDB from './config/database';
+import { connectMongoDB } from './utils/helpers';
+import { connectWebSocket } from './config/websocket';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import authRouter from './routes/auth';
 
 dotenv.config();
-connectDB();
+connectMongoDB("chatify");
 
 const app = express();
+connectWebSocket(app);
 
 // view engine setup
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 
-app.use(logger("common"));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -26,6 +29,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
