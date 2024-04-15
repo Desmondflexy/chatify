@@ -4,6 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { connectMongoDB } from './utils/helpers';
 import { connectWebSocket } from './config/websocket';
 
@@ -21,6 +22,10 @@ connectWebSocket(app);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

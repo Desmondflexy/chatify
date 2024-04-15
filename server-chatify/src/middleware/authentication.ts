@@ -3,9 +3,13 @@ import { devLog, verifyToken } from "../utils/helpers";
 
 export interface IPayload {
   id: string;
+  displayName: string;
+  email: string;
+  iat: number;
+  exp: number;
 }
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
+export default function authenticate(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
   if (!token) return res.status(401).json("Unauthorized");
 
