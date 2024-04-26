@@ -16,7 +16,7 @@ function GoogleButton() {
         myApi.post('/auth/google', { id, name, email })
           .then(res => {
             setToken(res.data);
-            navigate('/chats');
+            navigate('/');
           }).catch(error => {
             alert(':( Error logging in with Google')
             console.error(error);

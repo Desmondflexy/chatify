@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import User from "../models/user";
-import * as joi from "../utils/validators";
-import { attachToken, errorHandler, generateToken } from "../utils/helpers";
+import { User } from "../models/user";
+import * as joi from "../utils/joi-validators";
+import { errorHandler } from "../utils/helpers";
+import { attachToken, generateToken } from "../utils/jwt";
 import bcrypt from "bcryptjs";
 
 export async function signup(req: Request, res: Response) {
@@ -11,9 +12,8 @@ export async function signup(req: Request, res: Response) {
     let user = await User.findOne({ email: value.email });
     if (user) return res.status(409).json("User already exists!");
 
-    user = new User({ ...value, password: await bcrypt.hash(value.password, 10) });
-    await user.save();
-    res.json(`User ${user.displayName} created successfully!`);
+    user = await User.create({ ...value, password: await bcrypt.hash(value.password, 10) });
+    res.status(201).json(`User ${user.displayName} created successfully!`);
   } catch (error) {
     errorHandler(res, error);
   }
@@ -42,19 +42,17 @@ export async function login(req: Request, res: Response) {
 export async function googleSignOn(req: Request, res: Response) {
   try {
     const { value, error } = joi.googleSignOn.validate(req.body);
-    if (error) {
-      return res.status(400).json(error.message);
-    }
+    if (error) return res.status(400).json(error.message);
+
     let user = await User.findOne({ email: value.email });
 
     if (!user) {
-      user = new User({
+      user = await User.create({
         email: value.email,
         displayName: value.name,
         ssoId: value.id,
         ssoProvider: "Google",
       });
-      await user.save();
     } else if (!user.ssoProvider) {
       // user exists but has not signed in with Google before
       user.ssoProvider = "Google";

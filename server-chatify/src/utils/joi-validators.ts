@@ -27,3 +27,14 @@ export const googleSignOn = joi.object().keys({
   email: joi.string().email().required(),
   name: joi.string().required(),
 });
+
+export const createChatRoom = joi.object().keys({
+  name: joi.string().required(),
+  description: joi.string(),
+  picture: joi.string(),
+});
+
+export const startChat = joi.object().keys({
+  message: joi.string().required,
+  email: joi.string().required,
+});

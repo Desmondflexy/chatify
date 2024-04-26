@@ -1,19 +1,21 @@
 import createError, { HttpError } from 'http-errors';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { connectMongoDB } from './utils/helpers';
 import { connectWebSocket } from './config/websocket';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
+import chatRoomRouter from './routes/chat-room';
+import chatsRouter from './routes/chat';
+import connectDB from './utils/database';
 
 dotenv.config();
-connectMongoDB("chatify");
+connectDB();
 
 const app = express();
 connectWebSocket(app);
@@ -35,6 +37,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/chat-room", chatRoomRouter);
+app.use('/chat', chatsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { devLog, verifyToken } from "../utils/helpers";
+import { devLog } from "../utils/helpers";
+import { verifyToken } from "../utils/jwt";
 
 export interface IPayload {
   id: string;
@@ -17,8 +18,8 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
     const decodedPayload = verifyToken(token);
     req.user = decodedPayload as IPayload;
     next();
-  } catch(error) {
-    devLog(error);
+  } catch(error: any) {
+    devLog(error.message);
     return res.status(401).json("Unauthorized");
   }
 }

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import myApi from "./api.config";
+import { User } from "./types";
+// import { ChatPageContext } from "./contexts";
 
 /**
  * Custom hook for managing authentication token.
@@ -16,36 +18,44 @@ export function useToken() {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const tokenFromStorage = localStorage.getItem('token');
+    const tokenFromStorage = localStorage.getItem("token");
     if (tokenFromStorage) setToken(tokenFromStorage);
   }, []);
 
   function saveToken(userToken: string) {
-    localStorage.setItem('token', userToken);
+    localStorage.setItem("token", userToken);
     setToken(userToken);
   }
 
   function removeToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setToken(null);
   }
 
   return {
     setToken: saveToken,
     token,
-    removeToken
+    removeToken,
   };
 }
 
 /**A custom hook that authenticates the user and denies access if not authenticated.*/
 export function useAuthenticator() {
+  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
-  const { token } = useToken();
-  denyUnauthenticated();
+  useEffect(() => {
+    myApi
+      .get("/users/me")
+      .then((res) => setUser(res.data))
+      .catch(() => navigate("/auth"));
+  }, [navigate]);
+  return user;
+}
 
-  /**Return to login page if user not authenticated */
-  function denyUnauthenticated() {
-    if (!token) navigate('/');
-    myApi.get('/users/me').then(()=> console.log('success')).catch(() => navigate('/'));
-  }
+export const ChatPageContext = createContext<User | undefined>(undefined);
+
+export function useUserContext() {
+  const user = useContext(ChatPageContext);
+  if (!user) throw new Error("useUserContext must be used within a UserProvider");
+  return user;
 }
