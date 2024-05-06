@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import myApi from "./api.config";
 import { User } from "./types";
+import api from "./api";
 // import { ChatPageContext } from "./contexts";
 
 /**
@@ -44,18 +44,17 @@ export function useAuthenticator() {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-    myApi
-      .get("/users/me")
-      .then((res) => setUser(res.data))
+    api.getMe()
+      .then((res) => setUser(res))
       .catch(() => navigate("/auth"));
   }, [navigate]);
   return user;
 }
 
-export const ChatPageContext = createContext<User | undefined>(undefined);
+// export const ChatPageContext = createContext<User | undefined>(undefined);
 
-export function useUserContext() {
-  const user = useContext(ChatPageContext);
-  if (!user) throw new Error("useUserContext must be used within a UserProvider");
-  return user;
-}
+// export function useUserContext() {
+//   const user = useContext(ChatPageContext);
+//   if (!user) throw new Error("useUserContext must be used within a UserProvider");
+//   return user;
+// }

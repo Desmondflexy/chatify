@@ -1,26 +1,38 @@
-import { useAuthenticator, ChatPageContext } from "../hooks";
+import { useAuthenticator } from "../utils/hooks";
 import MiniHeader from "./MiniHeader";
 import { BiLoaderAlt } from "react-icons/bi";
-import CreateGroupForm from "../modals/CreateGroup";
 import { useState } from "react";
+import Modal from "./Modal";
+import Styles from "./ChatApp.module.css";
+import UserChatList from "./UserChatList";
+import FindFriendForm from "./FindFriendForm";
+import ChatPanel from "./ChatPanel";
 
 export default function ChatApp() {
-  const [formVisible, setFormVisible] = useState(false);
+  const [modalVisibility, setModalVisibility] = useState(false);
   const user = useAuthenticator();
 
-  function showForm() {
-    setFormVisible(true);
-  }
-
   if (!user) return <BiLoaderAlt />;
-  return <div className="ChatList">
-    <ChatPageContext.Provider value={user}>
-      <MiniHeader />
-      <h2>Hi, {user.displayName}!</h2>
-      <button>Click to start a new chat</button>
-      {/* <p>Chat list goes here</p> */}
-      {/* <button onClick={showForm}>Create a new chat room</button>
-      {formVisible && <CreateGroupForm setFormVisible={setFormVisible} />} */}
-    </ChatPageContext.Provider>
+
+  return <div className={Styles.chatApp}>
+    <MiniHeader user={user} />
+
+    <aside>
+      <button onClick={() => setModalVisibility(true)}>New chat</button>
+      <UserChatList />
+    </aside>
+
+    <ChatPanel />
+
+
+    {/* ====================================================================== */}
+
+    {/* modal: search for a friend to chat with */}
+    {modalVisibility &&
+      <Modal setVisibility={setModalVisibility} >
+        <FindFriendForm setVisibility={setModalVisibility} />
+      </Modal>}
+
   </div>
 }
+
