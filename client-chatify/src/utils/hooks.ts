@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "./types";
 import api from "./api";
-// import { ChatPageContext } from "./contexts";
 
 /**
  * Custom hook for managing authentication token.
@@ -15,7 +14,7 @@ import api from "./api";
  *   - removeToken: A function to remove the authentication token from local storage.
  */
 export function useToken() {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     const tokenFromStorage = localStorage.getItem("token");
@@ -29,13 +28,13 @@ export function useToken() {
 
   function removeToken() {
     localStorage.removeItem("token");
-    setToken(null);
+    setToken("");
   }
 
   return {
-    setToken: saveToken,
     token,
     removeToken,
+    setToken: saveToken,
   };
 }
 
@@ -50,11 +49,3 @@ export function useAuthenticator() {
   }, [navigate]);
   return user;
 }
-
-// export const ChatPageContext = createContext<User | undefined>(undefined);
-
-// export function useUserContext() {
-//   const user = useContext(ChatPageContext);
-//   if (!user) throw new Error("useUserContext must be used within a UserProvider");
-//   return user;
-// }

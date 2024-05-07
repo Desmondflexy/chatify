@@ -12,8 +12,6 @@ export default function App() {
           <Route path="" element={<Navigate to="chat" replace />} /> {/* redirect to chat page */}
           <Route path="auth" element={<AuthPage />} />
           <Route path="chat/*" element={<ChatApp />} />
-          {/* <Route path="chats" element={<UserChatList />} />
-          <Route path="chat/:chatId" element={<ChatApp />} /> */}
           <Route path="*" element={< NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,13 +1,15 @@
-import myApi from "../api.config";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import api from "../utils/api";
 
 
 export default function FindFriendForm({ setVisibility }: FindFriendProps) {
 
-  const [user, setUser] = useState<User | null>(null);
+  const [state, setState] = useState<State>({
+    user: null,
+    result: ""
+  })
   const { register, handleSubmit } = useForm<FormInput>();
-
 
   return <div>
     <h2>Find a friend</h2>
@@ -15,18 +17,19 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
       <input {...register("email")} type="email" placeholder="Enter friend's email" required />
       <input type="submit" value="Search" />
     </form>
-    {user && <p>{user.displayName}</p>}
+    {state.result && <p>{state.result}</p>}
   </div>
 
 
   async function onSubmit(data: FormInput) {
     try {
-      const response = await myApi.get(`/users?email=${data.email}`);
-      setVisibility(false);
-      setUser(response.data);
-
-    } catch (error) {
-      console.error(error);
+      const response = await api.findUserByEmail(data.email);
+      console.log(response);
+      setVisibility(true);
+      setState(s => ({...s, result: response?.data.displayName}));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setState(s => ({...s, result: error.message}));
     }
   }
 
@@ -38,6 +41,11 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
     id: string;
     email: string;
     displayName: string;
+  }
+
+  interface State {
+    user: User | null;
+    result: string;
   }
 }
 

@@ -1,0 +1,42 @@
+.chat-panel {
+
+
+  &>h2 {
+    position: sticky;
+    top: 0;
+    background-color: rgba(234, 236, 115, 0.877);
+    margin: 0;
+    padding: 20px;
+
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    background-color: blanchedalmond;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 20px;
+  }
+
+  form {
+    display: flex;
+    padding: 20px;
+    border: 1px solid red;
+
+    textarea {
+      flex: 1;
+      background-color: rgb(235, 231, 231);
+      border: 2px solid grey;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    input {
+
+    }
+  }
+}

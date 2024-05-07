@@ -7,12 +7,13 @@ import Styles from "./ChatApp.module.css";
 import UserChatList from "./UserChatList";
 import FindFriendForm from "./FindFriendForm";
 import ChatPanel from "./ChatPanel";
+import { Route, Routes, Outlet } from "react-router-dom";
 
 export default function ChatApp() {
   const [modalVisibility, setModalVisibility] = useState(false);
   const user = useAuthenticator();
 
-  if (!user) return <BiLoaderAlt />;
+  if (!user) return <BiLoaderAlt size={50}/>;
 
   return <div className={Styles.chatApp}>
     <MiniHeader user={user} />
@@ -22,7 +23,7 @@ export default function ChatApp() {
       <UserChatList />
     </aside>
 
-    <ChatPanel />
+    <Outlet />
 
 
     {/* ====================================================================== */}
@@ -32,6 +33,10 @@ export default function ChatApp() {
       <Modal setVisibility={setModalVisibility} >
         <FindFriendForm setVisibility={setModalVisibility} />
       </Modal>}
+
+    <Routes>
+      <Route path=":chatId" element={<ChatPanel/>}/>
+    </Routes>
 
   </div>
 }

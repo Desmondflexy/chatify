@@ -15,3 +15,25 @@
     color: blue;
   }
 }
+
+.user-profile {
+  font-size: .8em;
+  text-align: right;
+
+  p {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: .8em;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
