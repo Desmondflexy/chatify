@@ -8,6 +8,8 @@ import UserChatList from "./UserChatList";
 import FindFriendForm from "./FindFriendForm";
 import ChatPanel from "./ChatPanel";
 import { Route, Routes, Outlet } from "react-router-dom";
+import NotFound from "./NotFound";
+import DraftMessagePanel from "./DraftMessagePanel";
 
 export default function ChatApp() {
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -36,6 +38,8 @@ export default function ChatApp() {
 
     <Routes>
       <Route path=":chatId" element={<ChatPanel/>}/>
+      <Route path="draft/:friendId" element={<DraftMessagePanel/>}/>
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
 
   </div>

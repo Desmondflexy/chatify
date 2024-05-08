@@ -96,6 +96,15 @@ class MyApi {
       this.handleError(error);
     }
   }
+
+  async startMessage(friendId: string, text: string) {
+    try {
+      const response = await this.server.post(`chat/friend/${friendId}`, { text });
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 }
 
 const api = new MyApi();

@@ -1,18 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../utils/api";
 import styles from "./ChatPanel.module.css";
 import { useAuthenticator, useScrollToElement } from "../utils/hooks";
 import { useForm } from "react-hook-form";
 
 export default function ChatPanel() {
-  const [state, setState] = useState<State>({
-    messages: []
-  });
+  const [state, setState] = useState<State>({ messages: [] });
   const { chatId } = useParams();
   const { register, handleSubmit } = useForm<ChatForm>();
   const user = useAuthenticator();
-  console.log(user);
 
   useEffect(() => {
     api.fetchChatMessages(chatId as string)
@@ -27,9 +24,8 @@ export default function ChatPanel() {
   useScrollToElement(msgRef);
 
   return <article className={styles["chat-panel"]}>
-    <h2>Your chat with {''}</h2>
     <ul>
-      {state.messages.map((msg, index) => <li key={msg._id}>
+      {state.messages.map((msg, index) => <li className={isFirstPerson(msg.sender._id) ? styles.user1 : styles.user2} key={msg._id}>
         <h4>{msg.sender.displayName} ({msg.createdAt})</h4>
         <p ref={isLastMessage(index) ? msgRef : null}>{msg.text}</p>
       </li>)}
@@ -39,6 +35,10 @@ export default function ChatPanel() {
       <button>Send</button>
     </form>
   </article>
+
+  function isFirstPerson(userId: string) {
+    return userId === user?.id;
+  }
 
 
   function sendMessage(data: ChatForm) {

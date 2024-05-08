@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 
 export default function FindFriendForm({ setVisibility }: FindFriendProps) {
@@ -10,6 +11,7 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
     result: ""
   })
   const { register, handleSubmit } = useForm<FormInput>();
+  const navigate = useNavigate();
 
   return <div>
     <h2>Find a friend</h2>
@@ -24,7 +26,8 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
   async function onSubmit(data: FormInput) {
     api.findUserByEmail(data.email).then(user => {
       console.log(user);
-      setVisibility(true);
+      setVisibility(false);
+      navigate("draft/" + user._id)
       setState(s => ({...s, result: user.displayName}));
     }).catch(error => {
       setState(s => ({...s, result: error.message}));
