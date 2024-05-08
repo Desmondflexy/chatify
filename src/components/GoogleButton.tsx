@@ -31,7 +31,7 @@ function GoogleButton() {
   }
 
 
-  return <button onClick={() => googleLogin}>Continue with Google</button>
+  return <button onClick={() => googleLogin()}>Continue with Google</button>
 }
 
 export default GoogleButton;

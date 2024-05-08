@@ -11,7 +11,7 @@ export default function Form() {
   const navigate = useNavigate();
 
   function login(data: LoginDataType) {
-    api.logMeIn(data).then(res => {
+    api.login(data).then(res => {
       setToken(res);
       navigate('/');
     }).catch(err => {

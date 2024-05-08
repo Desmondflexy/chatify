@@ -22,15 +22,13 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
 
 
   async function onSubmit(data: FormInput) {
-    try {
-      const response = await api.findUserByEmail(data.email);
-      console.log(response);
+    api.findUserByEmail(data.email).then(user => {
+      console.log(user);
       setVisibility(true);
-      setState(s => ({...s, result: response?.data.displayName}));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+      setState(s => ({...s, result: user.displayName}));
+    }).catch(error => {
       setState(s => ({...s, result: error.message}));
-    }
+    });
   }
 
   interface FormInput {

@@ -25,7 +25,10 @@
   form {
     display: flex;
     padding: 20px;
-    border: 1px solid red;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4);
 
     textarea {
       flex: 1;
@@ -36,7 +39,7 @@
     }
 
     input {
-
+      border-radius: 12px;
     }
   }
 }

@@ -49,3 +49,15 @@ export function useAuthenticator() {
   }, [navigate]);
   return user;
 }
+
+
+export function useScrollToElement(element: React.RefObject<HTMLElement>) {
+  useEffect(scrollToElement);
+
+  function scrollToElement() {
+    const { current } = element;
+    if (current !== null) {
+      current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+}
