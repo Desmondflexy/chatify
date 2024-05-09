@@ -10,7 +10,6 @@ export default function DraftMessagePanel() {
 
   function startMessage(data: ChatForm) {
     api.startMessage(friendId as string, data.text).then(res => {
-      console.log(res.message);
       navigate(`/chat/${res.chatId}`);
     }).catch(err => {
       console.error(err.message);
@@ -18,6 +17,7 @@ export default function DraftMessagePanel() {
   }
 
   return <article className={styles["chat-panel"]}>
+    <ul></ul>
     <form onSubmit={handleSubmit(startMessage)}>
       <textarea {...register("text")} placeholder="type your message here..." rows={1} />
       <button>Send</button>

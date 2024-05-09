@@ -93,6 +93,7 @@ class MyApi {
       const response = await this.server.post(`/chat/${chatId}/send`, { text });
       return response.data;
     } catch (error) {
+      console.error(error)
       this.handleError(error);
     }
   }
@@ -101,7 +102,11 @@ class MyApi {
     try {
       const response = await this.server.post(`chat/friend/${friendId}`, { text });
       return response.data;
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        return error.response.data;
+      }
       this.handleError(error);
     }
   }

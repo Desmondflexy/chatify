@@ -2,9 +2,6 @@
   display: grid;
   grid-template-rows: 10fr 1fr;
 
-  &>* {
-    border: 2px dotted red
-  }
 
   ul {
     list-style-type: none;

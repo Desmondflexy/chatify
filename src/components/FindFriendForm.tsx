@@ -25,12 +25,19 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
 
   async function onSubmit(data: FormInput) {
     api.findUserByEmail(data.email).then(user => {
-      console.log(user);
       setVisibility(false);
-      navigate("draft/" + user._id)
-      setState(s => ({...s, result: user.displayName}));
+      api.startMessage(user._id, "")
+        .then(res => navigate('/chat/' + res.chatId))
+        .catch((err) => {
+          if (err.message !== 'text is required') {
+            console.error(err.message);
+          }
+        });
+      console.log(12);
+      navigate("draft/" + user._id);
+      setState(s => ({ ...s, result: user.displayName }));
     }).catch(error => {
-      setState(s => ({...s, result: error.message}));
+      setState(s => ({ ...s, result: error.message }));
     });
   }
 
