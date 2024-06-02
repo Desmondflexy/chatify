@@ -88,16 +88,6 @@ class MyApi {
         }
     }
 
-    async sendMessage(chatId: string, text: string) {
-        try {
-            const response = await this.server.post(`/chat/${chatId}/send`, { text });
-            return response.data;
-        } catch (error) {
-            console.error(error)
-            this.handleError(error);
-        }
-    }
-
     async startMessage(friendId: string, text: string) {
         try {
             const response = await this.server.post(`chat/friend/${friendId}`, { text });
