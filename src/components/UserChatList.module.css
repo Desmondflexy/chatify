@@ -1,26 +1,26 @@
 .chats {
-  padding-left: 0;
+    padding-left: 0;
 
-  li {
-    list-style-type: none;
-    background-color: rgb(247, 241, 241);
-    padding: 10px;
-    cursor: pointer;
+    li {
+        list-style-type: none;
+        background-color: rgb(247, 241, 241);
+        padding: 10px;
+        cursor: pointer;
 
-    &:hover {
-      background-color: aquamarine;
+        &:hover {
+            background-color: aquamarine;
+        }
+
+        h3 {
+            font-size: 1rem;
+            color: green;
+            margin: 0;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: rgb(65, 122, 64);
+            margin: 0;
+        }
     }
-
-    h3 {
-      font-size: 1rem;
-      color: green;
-      margin: 0;
-    }
-
-    p {
-      font-size: 0.8rem;
-      color: rgb(65, 122, 64);
-      margin: 0;
-    }
-  }
 }

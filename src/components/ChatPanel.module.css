@@ -1,57 +1,54 @@
 .chat-panel {
-  display: grid;
-  grid-template-rows: 1fr 10fr 1fr;
+    display: grid;
+    grid-template-rows: 1fr 100fr 1fr;
 
-  &
-
-  .header {
-    border: 1px solid blue;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    overflow-y: auto;
-  }
-
-  li {
-    background-color: blanchedalmond;
-    padding: 10px;
-    margin: 20px;
-    font-size: .8em;
-  }
-
-  form {
-    display: flex;
-    padding: 20px;
-    gap: 10px;
-    position: sticky;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-
-    input {
-      flex: 1;
-      background-color: rgb(235, 231, 231);
-      border: 2px solid grey;
-      border-radius: 5px;
-      padding: 10px;
+    & .header {
+        border: 1px solid blue;
     }
 
-    button {
-      border-radius: 12px;
+    ul {
+        list-style-type: none;
+        padding: 0;
+        overflow-y: auto;
     }
-  }
 
-  .user1 {
-    background-color: lightblue;
-    margin-left: 30%;
-    border-radius: 20px 0px 0px 20px;
-  }
+    li {
+        background-color: blanchedalmond;
+        padding: 10px;
+        margin: 20px;
+        font-size: .8em;
+    }
 
-  .user2 {
-    background-color: lightgreen;
-    margin-right: 30%;
-    border-radius: 0 20px 20px 0;
-  }
+    form {
+        display: flex;
+        padding: 20px;
+        gap: 10px;
+        position: sticky;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+
+        input {
+            flex: 1;
+            background-color: rgb(235, 231, 231);
+            border: 2px solid grey;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        button {
+            border-radius: 12px;
+        }
+    }
+
+    .user1 {
+        background-color: lightblue;
+        margin-left: 30%;
+        border-radius: 20px 0px 0px 20px;
+    }
+
+    .user2 {
+        background-color: lightgreen;
+        margin-right: 30%;
+        border-radius: 0 20px 20px 0;
+    }
 }
-
