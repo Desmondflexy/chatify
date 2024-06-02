@@ -2,6 +2,7 @@ import {useForm} from "react-hook-form";
 import styles from "./ChatPanel.module.css";
 import api from "../utils/api";
 import { useParams, useNavigate } from "react-router-dom";
+// import { Socket } from "socket.io-client";
 
 export default function DraftMessagePanel() {
   const {handleSubmit, register} = useForm<ChatForm>();
@@ -19,7 +20,7 @@ export default function DraftMessagePanel() {
   return <article className={styles["chat-panel"]}>
     <ul></ul>
     <form onSubmit={handleSubmit(startMessage)}>
-      <textarea {...register("text")} placeholder="type your message here..." rows={1} />
+      <input {...register("text")} placeholder="type your message here..." />
       <button>Send</button>
     </form>
   </article>

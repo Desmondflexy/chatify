@@ -16,7 +16,7 @@ function GoogleButton() {
         const { id, name, email } = res.data;
         api.googleLogin({ id, name, email })
           .then(res => {
-            setToken(res);
+            setToken(res.token);
             navigate('/');
           }).catch(error => {
             alert(error)

@@ -8,40 +8,40 @@ import UserChatList from "./UserChatList";
 import FindFriendForm from "./FindFriendForm";
 import ChatPanel from "./ChatPanel";
 import { Route, Routes, Outlet } from "react-router-dom";
-import NotFound from "./NotFound";
 import DraftMessagePanel from "./DraftMessagePanel";
+import io from "socket.io-client";
+
+const socket = io("ws://localhost:3000");
 
 export default function ChatApp() {
-  const [modalVisibility, setModalVisibility] = useState(false);
-  const user = useAuthenticator();
+    const [modalVisibility, setModalVisibility] = useState(false);
+    const user = useAuthenticator();
 
-  if (!user) return <BiLoaderAlt size={50}/>;
+    if (!user) return <BiLoaderAlt size={50} />;
 
-  return <div className={Styles.chatApp}>
-    <MiniHeader user={user} />
+    return <div className={Styles.chatApp}>
+        <MiniHeader user={user} />
 
-    <aside>
-      <button onClick={() => setModalVisibility(true)}>New chat</button>
-      <UserChatList />
-    </aside>
+        <aside>
+            <button onClick={() => setModalVisibility(true)}>New chat</button>
+            <UserChatList />
+        </aside>
 
-    <Outlet />
+        <Outlet />
 
 
-    {/* ====================================================================== */}
+        {/* modal: search for a friend to chat with */}
+        {modalVisibility &&
+            <Modal setVisibility={setModalVisibility} >
+                <FindFriendForm setVisibility={setModalVisibility} />
+            </Modal>}
 
-    {/* modal: search for a friend to chat with */}
-    {modalVisibility &&
-      <Modal setVisibility={setModalVisibility} >
-        <FindFriendForm setVisibility={setModalVisibility} />
-      </Modal>}
+        <Routes>
+            <Route path=":chatId" element={<ChatPanel socket={socket} />} />
+            <Route path="draft/:friendId" element={<DraftMessagePanel />} />
+        </Routes>
 
-    <Routes>
-      <Route path=":chatId" element={<ChatPanel/>}/>
-      <Route path="draft/:friendId" element={<DraftMessagePanel/>}/>
-      <Route path="*" element={<NotFound/>}/>
-    </Routes>
-
-  </div>
+    </div>
 }
+
 

@@ -12,7 +12,7 @@ export default function Form() {
 
   function login(data: LoginDataType) {
     api.login(data).then(res => {
-      setToken(res);
+      setToken(res.token);
       navigate('/');
     }).catch(err => {
       alert(err);
@@ -22,7 +22,7 @@ export default function Form() {
     <h3>Login</h3>
     <input {...register("email")} placeholder="email" autoComplete='on' />
     <input {...register("password")} type="password" placeholder={"password"} autoComplete='current-password' />
-    <input type="submit" />
+    <input type="submit" value="Login" />
   </form>
 }
 
