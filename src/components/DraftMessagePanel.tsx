@@ -9,16 +9,18 @@ export default function DraftMessagePanel() {
     const navigate = useNavigate();
 
     function startMessage(data: ChatForm) {
-        api.startMessage(friendId as string, data.text).then(res => {
-            navigate(`/chat/${res.chatId}`);
-        }).catch(err => {
-            console.error(err.message);
-        })
+        api.startMessage(friendId as string, data.text)
+            .then(res => {
+                navigate(`/chat/${res.chatId}`);
+            })
+            .catch(err => {
+                console.error(err.message);
+            })
     }
 
     return <article className={styles["chat-panel"]}>
         <div className={styles["header"]}>
-            <h3>User</h3>
+            {/* <h3>Chat Name</h3> */}
         </div>
         <ul></ul>
         <form onSubmit={handleSubmit(startMessage)}>

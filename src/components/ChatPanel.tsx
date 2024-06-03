@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import api from "../utils/api";
 import styles from "./ChatPanel.module.css";
 import { useAuthenticator, useScrollToElement } from "../utils/hooks";
@@ -8,7 +8,10 @@ import { Socket } from "socket.io-client";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function ChatPanel({ socket }: { socket: Socket }) {
-    const [state, setState] = useState<State>({ messages: [] });
+    const [state, setState] = React.useState<State>({
+        messages: [],
+        chatName: ""
+    });
     const { chatId } = useParams();
     const { register, handleSubmit, reset } = useForm<ChatForm>();
     const user = useAuthenticator();
@@ -18,7 +21,7 @@ export default function ChatPanel({ socket }: { socket: Socket }) {
     React.useEffect(() => {
         api.fetchChatMessages(chatId as string)
             .then(res => {
-                setState(s => ({ ...s, messages: res }))
+                setState(s => ({ ...s, messages: res.messages, chatName: res.chatName}))
             }).catch(err => {
                 console.error(err.message);
                 navigate('/chat')
@@ -26,13 +29,10 @@ export default function ChatPanel({ socket }: { socket: Socket }) {
     }, [chatId, navigate]);
 
     React.useEffect(() => {
-        // join chat room
         socket.emit('joinChat', chatId);
-        // receive messages from the server
         socket.on('receiveMessage', data => {
-            console.log(data);
-            const {_id, createdAt, sender, text} = data;
-            setState(s => ({ ...s, messages: [...s.messages, {_id, createdAt, sender, text}] }));
+            const { _id, createdAt, sender, text } = data;
+            setState(s => ({ ...s, messages: [...s.messages, { _id, createdAt, sender, text }] }));
         });
 
         return () => {
@@ -42,17 +42,17 @@ export default function ChatPanel({ socket }: { socket: Socket }) {
     }, [chatId, socket])
 
 
-    const msgRef = useRef<HTMLParagraphElement | null>(null);
+    const msgRef = React.useRef<HTMLParagraphElement | null>(null);
     useScrollToElement(msgRef);
 
     if (!user) return <BiLoaderAlt size={50} />;
 
     return <article className={styles["chat-panel"]}>
         <div className={styles["header"]}>
-            <h3>User</h3>
+            <h3>{state.chatName}</h3>
         </div>
         <ul>
-            {state.messages.map((msg, index) => <li className={isFirstPerson(msg.sender._id) ? styles.user1 : styles.user2} key={msg._id}>
+            {state.messages.map((msg, index) => <li className={personStyle(msg.sender._id)} key={msg._id}>
                 <h4>{msg.sender.displayName} ({msg.createdAt})</h4>
                 <p ref={isLastMessage(index) ? msgRef : null}>{msg.text}</p>
             </li>)}
@@ -63,15 +63,20 @@ export default function ChatPanel({ socket }: { socket: Socket }) {
         </form>
     </article>
 
-    function isFirstPerson(userId: string) {
-        return userId === user?.id;
+
+
+    function personStyle(userId: string) {
+        if (userId === user?.id) {
+            return styles.user1;
+        } else {
+            return styles.user2;
+        }
     }
 
 
     function sendMessage(data: ChatForm) {
-        console.log('calling sendMessage function...')
         if (data.text) {
-            socket.emit('sendMessage', {chatId, userId: user?.id, text: data.text});
+            socket.emit('sendMessage', { chatId, userId: user?.id, text: data.text });
             reset();
         }
     }
@@ -90,6 +95,7 @@ interface IMessage {
 
 interface State {
     messages: IMessage[];
+    chatName: string;
 }
 
 interface ChatForm {

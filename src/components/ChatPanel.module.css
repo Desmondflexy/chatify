@@ -3,7 +3,8 @@
     grid-template-rows: 1fr 100fr 1fr;
 
     & .header {
-        border: 1px solid blue;
+        background-color: #13151c;
+        color: white
     }
 
     ul {

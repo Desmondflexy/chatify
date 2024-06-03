@@ -15,7 +15,7 @@ export default function UserChatList() {
             }).catch(err => {
                 console.error(err);
             })
-    }, [location])
+    }, [location]);
 
     return <ul className={Styles["chats"]}>
         {chats.map(chat => <li onClick={() => navigate(chat.id)} key={chat.id}>{chat.chatName}</li>)}

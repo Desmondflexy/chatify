@@ -11,7 +11,7 @@ import { Route, Routes, Outlet } from "react-router-dom";
 import DraftMessagePanel from "./DraftMessagePanel";
 import io from "socket.io-client";
 
-const socket = io("ws://localhost:3000");
+const socket = io(import.meta.env.VITE_APP_SERVER);
 
 export default function ChatApp() {
     const [modalVisibility, setModalVisibility] = useState(false);
