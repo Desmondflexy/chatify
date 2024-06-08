@@ -94,6 +94,7 @@ class MyApi {
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            console.log(error.response);
             if (error.response.status === 409) {
                 return error.response.data;
             }

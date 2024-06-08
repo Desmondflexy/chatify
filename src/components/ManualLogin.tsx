@@ -19,9 +19,10 @@ export default function Form() {
         });
     }
     return <form className={styles["form"]} onSubmit={handleSubmit(login)}>
-        <h3>Login</h3>
-        <input {...register("email")} placeholder="email" autoComplete='on' />
-        <input {...register("password")} type="password" placeholder={"password"} autoComplete='current-password' />
+        <hr />
+        <h3>Or login with your email</h3>
+        <input {...register("email")} placeholder="email" autoComplete='on' required />
+        <input {...register("password")} type="password" placeholder={"password"} autoComplete='current-password' required />
         <input type="submit" value="Login" />
     </form>
 }

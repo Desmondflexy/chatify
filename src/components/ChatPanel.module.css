@@ -1,4 +1,28 @@
 .chat-panel {
+    &>div{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        padding: 5px;
+        &>img{
+            border-radius: 50%;
+            background-color: white;
+        }
+    }
+    &>ul {
+        list-style-type: none;
+        /* padding: 0; */
+        overflow-y: auto;
+        /* li {
+            margin: 10px;
+            border-radius: 8px;
+            background-color: aquamarine;
+
+        } */
+    }
+}
+
+/* .chat-panel {
     display: grid;
     grid-template-rows: 1fr 100fr 1fr;
 
@@ -52,4 +76,4 @@
         margin-right: 30%;
         border-radius: 0 20px 20px 0;
     }
-}
+} */

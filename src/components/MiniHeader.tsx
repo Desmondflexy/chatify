@@ -3,19 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { IUser } from "../utils/types";
 import api from "../utils/api";
 import { useToken } from "../utils/hooks";
+import viteImg from "../../public/vite.svg"
 
 export default function MiniHeader({ user }: { user: IUser }) {
     const { removeToken } = useToken();
     const navigate = useNavigate();
-
-    return <header className={styles["header"]}>
-        <h4>Chatify</h4>
-
-        <div className={styles["user-profile"]}>
-            <p>{user.displayName}</p>
-            <button onClick={logout}>Logout</button>
-        </div>
-    </header>
 
     function logout() {
         api.logout()
@@ -25,4 +17,16 @@ export default function MiniHeader({ user }: { user: IUser }) {
             })
             .catch(err => alert(err));
     }
+
+    return <header className={styles["header"]}>
+        <h2>Chatify</h2>
+        <div>
+            <img src={viteImg} alt="profile-img" />
+            <div>
+                <p>{user.displayName}</p>
+                <button onClick={logout}>Logout</button>
+            </div>
+        </div>
+    </header>
+
 }

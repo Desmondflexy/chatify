@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import styles from "./ChatPanel.module.css";
+import styles from "./ChatApp.module.css";
 import api from "../utils/api";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default function DraftMessagePanel() {
         </div>
         <ul></ul>
         <form onSubmit={handleSubmit(startMessage)}>
-            <input {...register("text")} placeholder="type your message here..." />
+            <textarea {...register("text")} placeholder="type your message here..." ></textarea>
             <button>Send</button>
         </form>
     </article>

@@ -1,4 +1,147 @@
 .chatApp {
+    max-width: 500px;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+.chatList {
+    list-style: none;
+    height: calc(100% - 3rem);
+    box-shadow: inset 0px 2px 5px;
+    overflow-y: auto;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 5px;
+        background-color: yellow;
+        color: rgb(16, 38, 16);
+        padding: 10px;
+        border-radius: 8px;
+
+        img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            background-color: white;
+        }
+
+        &:first-child {
+            position: sticky;
+            top: 5px;
+            padding: 0;
+            width: 80%;
+            margin: 5px auto;
+
+            &>input {
+                width: 100%;
+                padding: 10px;
+                border-radius: inherit;
+            }
+        }
+
+        &>div {
+            flex: 1;
+
+            &>div {
+                font-style: italic;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        &.chat-item {
+            cursor: pointer;
+        }
+    }
+}
+
+.chat-panel {
+    list-style: none;
+    height: calc(100% - 3rem);
+    overflow-y: auto;
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 1fr 100fr 1fr;
+
+    &>div {
+        display: flex;
+        grid-row: 1;
+        gap: 5px;
+        align-items: center;
+        padding: 5px;
+        position: sticky;
+        top: 0;
+        background-color: beige;
+
+        &>img {
+            border-radius: 50%;
+            background-color: white;
+        }
+    }
+
+    &>ul {
+        list-style-type: none;
+        padding: 0;
+        grid-row: 2;
+        white-space: pre-wrap;
+
+        &>li {
+            background-color: blanchedalmond;
+            padding: 20px 10px 5px 10px;
+            margin: 20px 10px;
+            font-size: .8em;
+
+            &.user1 {
+                margin-left: 30%;
+                border-radius: 10px 0px 0px 10px;
+                background-color: lightgreen;
+            }
+
+            &.user2 {
+                background-color: lightblue;
+                margin-right: 30%;
+                border-radius: 0 10px 10px 0;
+            }
+            & p:last-child {
+                text-align: right;
+                color: rgb(20, 40, 24);
+                font-style: italic;
+                font-size: .8em;
+            }
+        }
+    }
+
+    &>form {
+        display: flex;
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        gap: 10px;
+        background-color: beige;
+        grid-row: 3;
+
+        &>textarea {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid grey;
+            background-color: rgb(235, 231, 231);
+            resize: none;
+        }
+
+        &>button {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgb(231, 235, 232);
+        }
+    }
+}
+
+
+/* .chatApp {
     display: grid;
     gap: 10px;
     grid-template-columns: 1fr 9fr;
@@ -35,4 +178,4 @@
         overflow-y: auto;
         border-radius: 5px;
     }
-}
+} */

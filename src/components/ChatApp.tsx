@@ -7,11 +7,8 @@ import Styles from "./ChatApp.module.css";
 import UserChatList from "./UserChatList";
 import FindFriendForm from "./FindFriendForm";
 import ChatPanel from "./ChatPanel";
-import { Route, Routes, Outlet } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import DraftMessagePanel from "./DraftMessagePanel";
-import io from "socket.io-client";
-
-const socket = io(import.meta.env.VITE_APP_SERVER);
 
 export default function ChatApp() {
     const [modalVisibility, setModalVisibility] = useState(false);
@@ -21,13 +18,11 @@ export default function ChatApp() {
 
     return <div className={Styles.chatApp}>
         <MiniHeader user={user} />
-
-        <aside>
-            <button onClick={() => setModalVisibility(true)}>New chat</button>
-            <UserChatList />
-        </aside>
-
-        <Outlet />
+        <Routes>
+            <Route path="" element={<UserChatList userId={user.id} setModalVisibility={setModalVisibility} />} />
+            <Route path=":chatId" element={<ChatPanel userId={user.id} />} />
+            <Route path="draft/:friendId" element={<DraftMessagePanel />} />
+        </Routes>
 
 
         {/* modal: search for a friend to chat with */}
@@ -35,12 +30,6 @@ export default function ChatApp() {
             <Modal setVisibility={setModalVisibility} >
                 <FindFriendForm setVisibility={setModalVisibility} />
             </Modal>}
-
-        <Routes>
-            <Route path=":chatId" element={<ChatPanel socket={socket} />} />
-            <Route path="draft/:friendId" element={<DraftMessagePanel />} />
-        </Routes>
-
     </div>
 }
 

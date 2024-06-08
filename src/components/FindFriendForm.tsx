@@ -25,7 +25,6 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
     async function onSubmit(data: FormInput) {
         api.findUserByEmail(data.email).then(user => {
             setVisibility(false);
-            console.log(user);
             api.startMessage(user._id, "")
                 .then(res => navigate('/chat/' + res.chatId))
                 .catch((err) => {

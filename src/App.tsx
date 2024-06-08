@@ -3,10 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ChatApp from "./components/ChatApp";
 import NotFound from "./components/NotFound";
 import AuthPage from "./components/AuthPage";
-// import { socketInstance } from "./utils/socket";
 
 export default function App() {
-    return <div>
+    return <>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLE_CLIENT_ID}>
             <BrowserRouter>
                 <Routes>
@@ -17,5 +16,5 @@ export default function App() {
                 </Routes>
             </BrowserRouter>
         </GoogleOAuthProvider >
-    </div>
+    </>;
 }

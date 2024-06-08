@@ -2,38 +2,39 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 10px;
+    background-color: #062c05;
+    color: white;
     height: 3rem;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
 
-    h4 {
-        color: green;
-    }
-
-    p {
-        color: blue;
-    }
-}
-
-.user-profile {
-    font-size: .8em;
-    text-align: right;
-
-    p {
-        margin: 0;
-        font-weight: 700;
-    }
-
-    button {
-        background: none;
-        border: none;
-        cursor: pointer;
+    &>div{
+        display: flex;
+        align-items: center;
+        gap: 10px;
         font-size: .8em;
-        padding: 0;
+        text-align: right;
 
-        &:hover {
-            text-decoration: underline;
+        img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+        }
+
+        p {
+            font-weight: 700;
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: .8em;
+            color: inherit;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 }
