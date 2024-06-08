@@ -1,12 +1,12 @@
 import React from 'react';
 import Styles from "./ChatApp.module.css";
 import { useNavigate } from "react-router-dom";
-import viteImg from "../../public/vite.svg";
+import viteImg from "/vite.svg";
 import socket from "../utils/socket";
 import { formatDate } from '../utils';
 
 
-export default function UserChatList({ userId, setModalVisibility }: { userId: string; setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function UserChatList({ userId, setModalVisibility }: { userId: string; setModalVisibility: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [chats, setChats] = React.useState<Chat[]>([]);
     const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export default function UserChatList({ userId, setModalVisibility }: { userId: s
             setChats(data);
         });
         socket.on("receiveMessage", () => {
-            setChats(chats);
+            setChats(() => chats);
         })
         return () => {
             socket.off("receivedChats");
@@ -24,8 +24,9 @@ export default function UserChatList({ userId, setModalVisibility }: { userId: s
         }
     }, [userId, chats]);
 
+
     const chatsList = chats.map(function (chat) {
-        return <li key={chat.id} onClick={() => showChatPage(chat.id)}>
+        return <li key={chat.id} onClick={() => navigate(chat.id)}>
             <img src={viteImg} alt="AB" />
             <div>
                 <h3>{chat.chatName}</h3>
@@ -36,9 +37,7 @@ export default function UserChatList({ userId, setModalVisibility }: { userId: s
             </div>
         </li>
     });
-    function showChatPage(chatId: string) {
-        navigate(chatId.toString());
-    }
+
     return (
         <ul className={Styles.chatList}>
             <li>

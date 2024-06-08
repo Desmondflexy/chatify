@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IUser } from "../utils/types";
 import api from "../utils/api";
 import { useToken } from "../utils/hooks";
-import viteImg from "../../public/vite.svg"
+import viteImg from "/vite.svg"
 
 export default function MiniHeader({ user }: { user: IUser }) {
     const { removeToken } = useToken();

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 // import style from "./ChatPanel.module.css";
 import style from "./ChatApp.module.css";
-import viteImg from "../../public/vite.svg";
+import viteImg from "/vite.svg";
 import socket from "../utils/socket";
 import { IoIosArrowBack } from "react-icons/io";
 import {formatDate} from "../utils"
