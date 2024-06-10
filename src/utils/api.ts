@@ -52,27 +52,9 @@ class MyApi {
         }
     }
 
-    async fetchUserChats() {
-        try {
-            const response = await this.server.get('/chat');
-            return response.data;
-        } catch (error) {
-            this.handleError(error);
-        }
-    }
-
     async logout() {
         try {
             const response = await this.server.get('/auth/logout');
-            return response.data;
-        } catch (error) {
-            this.handleError(error);
-        }
-    }
-
-    async fetchChatMessages(chatId: string) {
-        try {
-            const response = await this.server.get('chat/' + chatId);
             return response.data;
         } catch (error) {
             this.handleError(error);
@@ -98,6 +80,15 @@ class MyApi {
             if (error.response.status === 409) {
                 return error.response.data;
             }
+            this.handleError(error);
+        }
+    }
+
+    async getUser(userId: string) {
+        try {
+            const response = await this.server.get(`/users/${userId}`);
+            return response.data;
+        } catch (error) {
             this.handleError(error);
         }
     }

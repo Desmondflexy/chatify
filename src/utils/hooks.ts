@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "./types";
 import api from "./api";
@@ -60,4 +60,25 @@ export function useScrollToElement(element: React.RefObject<HTMLElement>) {
             current.scrollIntoView({ behavior: "smooth" });
         }
     }
+}
+
+
+interface SearchableItem {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+}
+
+export function useSearch<T extends SearchableItem>(data: T[]) {
+    const [query, setQuery] = useState('');
+    const filteredData = useMemo(() => {
+        if (!query) return data;
+        console.log(data)
+        return data.filter(item => {
+            return Object.values(item).some(value => {
+                return value.toString().toLowerCase().includes(query.toLowerCase());
+            });
+        });
+    }, [data, query]);
+
+    return { query, setQuery, filteredData };
 }

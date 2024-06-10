@@ -9,6 +9,7 @@ import FindFriendForm from "./FindFriendForm";
 import ChatPanel from "./ChatPanel";
 import { Route, Routes } from "react-router-dom";
 import DraftMessagePanel from "./DraftMessagePanel";
+import UserProfile from "./UserProfile";
 
 export default function ChatApp() {
     const [modalVisibility, setModalVisibility] = useState(false);
@@ -20,6 +21,7 @@ export default function ChatApp() {
         <MiniHeader user={user} />
         <Routes>
             <Route path="" element={<UserChatList userId={user.id} setModalVisibility={setModalVisibility} />} />
+            <Route path="profile" element={<UserProfile userId={user.id} />} />
             <Route path=":chatId" element={<ChatPanel userId={user.id} />} />
             <Route path="draft/:friendId" element={<DraftMessagePanel />} />
         </Routes>

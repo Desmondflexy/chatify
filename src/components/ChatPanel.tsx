@@ -1,9 +1,8 @@
 import React from "react";
-// import styles from "./ChatPanel.module.css";
+import { SlOptionsVertical } from "react-icons/sl";
 import { useScrollToElement } from "../utils/hooks";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-// import style from "./ChatPanel.module.css";
 import style from "./ChatApp.module.css";
 import viteImg from "/vite.svg";
 import socket from "../utils/socket";
@@ -25,12 +24,15 @@ export default function ChatPanel({ userId }: { userId: string }) {
         });
         socket.emit("joinChat", chatId);
         socket.on("receiveMessage", (data: IMessage) => {
-            console.log(data);
             setState(s => ({ ...s, messages: [...s.messages, data] }));
-        })
+        });
+        socket.on("error", (errorData: {error: string}) => {
+            alert(errorData.error);
+        });
         return () => {
             socket.off("receivedChatMessages");
             socket.off("receiveMessage");
+            socket.off("error");
         }
     }, [chatId, userId]);
 
@@ -50,12 +52,13 @@ export default function ChatPanel({ userId }: { userId: string }) {
             <IoIosArrowBack onClick={() => navigate("/chat")} />
             <img src={viteImg} alt="profile" />
             <h2>{state.chatName}</h2>
+            <SlOptionsVertical />
         </div>
         <ul>
             {messagesList}
         </ul>
         <form onSubmit={handleSubmit(sendMessage)}>
-            <textarea {...register("text")} placeholder="type your message and send..." rows={1}></textarea>
+            <textarea {...register("text")} placeholder="type your message and send..." rows={1} onKeyDown={handleKeyPress}></textarea>
             <button>Send</button>
         </form>
     </div>
@@ -75,6 +78,16 @@ export default function ChatPanel({ userId }: { userId: string }) {
             reset();
         }
     }
+
+    function handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            // sendMessage({text: e.currentTarget.value});
+            handleSubmit(sendMessage)();
+        }
+    }
+
+
 
     function isLastMessage(index: number) {
         return index === state.messages.length - 1;

@@ -10,54 +10,53 @@
     box-shadow: inset 0px 2px 5px;
     overflow-y: auto;
 
-    li:first-child {
-        position: sticky;
-        top: 5px;
-        padding: 0 10px;
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
+    li {
+        &:first-child {
+            position: sticky;
+            top: 5px;
+            padding: 0 10px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
 
-        &>* {
-            padding: 8px;
-            border-radius: 5px;
-            background-color: rgb(231, 235, 232);
-            font-size: 10px;
-            font-weight: 700;
-        }
-    }
-
-    li:not(:first-child) {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 5px;
-        background-color: yellow;
-        color: rgb(16, 38, 16);
-        padding: 10px;
-        border-radius: 8px;
-
-        img {
-            border-radius: 50%;
-            height: 40px;
-            width: 40px;
-            background-color: white;
-        }
-
-        &>div {
-            flex: 1;
-
-            &>div {
-                font-style: italic;
-                display: flex;
-                justify-content: space-between;
+            &>* {
+                padding: 8px;
+                border-radius: 5px;
+                background-color: rgb(231, 235, 232);
+                font-size: 10px;
+                font-weight: 700;
             }
         }
 
-        &.chat-item {
+        &:not(:first-child) {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px;
+            background-color: yellow;
+            color: rgb(16, 38, 16);
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
+
+            img {
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+                background-color: white;
+            }
+
+            &>div {
+                flex: 1;
+
+                &>div {
+                    font-style: italic;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
         }
     }
 }
@@ -84,6 +83,11 @@
             border-radius: 50%;
             background-color: white;
         }
+
+        & *:last-child {
+            cursor: pointer;
+            margin-left: auto;
+        }
     }
 
     &>ul {
@@ -97,18 +101,22 @@
             padding: 20px 10px 5px 10px;
             margin: 20px 10px;
             font-size: .8em;
+            line-height: 24px;
 
             &.user1 {
                 margin-left: 30%;
                 border-radius: 10px 0px 0px 10px;
                 background-color: lightgreen;
+                border: 2px solid rgb(43, 72, 43);
             }
 
             &.user2 {
                 background-color: lightblue;
+                border: 2px solid rgb(77, 108, 119);
                 margin-right: 30%;
                 border-radius: 0 10px 10px 0;
             }
+
             & p:last-child {
                 text-align: right;
                 color: rgb(20, 40, 24);
@@ -143,6 +151,13 @@
             background-color: rgb(231, 235, 232);
         }
     }
+}
+
+.user-profile {
+    padding: 10px;
+    background-color: rgb(231, 235, 232);
+    height: calc(100% - 3rem);
+    overflow-y: auto;
 }
 
 
