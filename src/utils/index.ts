@@ -7,7 +7,7 @@ export function formatDate(string: string, type: 'full' | 'short' = 'full') {
     } else if (days === 1) {
         if (type === 'full') return `yesterday, ${removeSeconds(date.toLocaleTimeString())}`
         return 'yesterday';
-    } else if (days < 7) {
+    } else if (days < 6) {
         const dayOfWeek = daysOfWeek[date.getDay()];
         if (type === 'full') return `${dayOfWeek}, ${removeSeconds(date.toLocaleTimeString())}`;
         return dayOfWeek;

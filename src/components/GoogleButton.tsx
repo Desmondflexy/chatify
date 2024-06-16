@@ -19,6 +19,7 @@ function GoogleButton() {
                         setToken(res.token);
                         navigate('/');
                     }).catch(error => {
+                        console.error(error);
                         alert(error)
                     });
             }).catch(error => {

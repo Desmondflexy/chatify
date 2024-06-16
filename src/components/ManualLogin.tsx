@@ -15,7 +15,8 @@ export default function Form() {
             setToken(res.token);
             navigate('/');
         }).catch(err => {
-            alert(err);
+            console.error(err.message);
+            alert(err.message);
         });
     }
     return <form className={styles["form"]} onSubmit={handleSubmit(login)}>

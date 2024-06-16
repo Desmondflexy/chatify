@@ -1,15 +1,15 @@
 import Styles from './Modal.module.css';
 
 interface PropsType {
-    setVisibility: (value: boolean) => void;
+    showModal: (value: boolean) => void;
     children: React.ReactNode;
 }
 
-export default function Modal({ setVisibility, children }: PropsType) {
+export default function Modal({ showModal, children }: PropsType) {
     return <div className={Styles["modal"]}>
         <div className={Styles["modal-content"]}>
             {children}
-            <button className={Styles.close} onClick={() => setVisibility(false)}>x</button>
+            <button className={Styles.close} onClick={() => showModal(false)}>x</button>
         </div>
     </div>
 }

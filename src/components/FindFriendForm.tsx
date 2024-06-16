@@ -4,7 +4,7 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 
-export default function FindFriendForm({ setVisibility }: FindFriendProps) {
+export default function FindFriendForm({ showModal }: FindFriendProps) {
     const [state, setState] = useState<State>({
         user: null,
         result: ""
@@ -12,35 +12,35 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
     const { register, handleSubmit } = useForm<FormInput>();
     const navigate = useNavigate();
 
-    return <div>
-        <h2>Find a friend</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input {...register("email")} type="email" placeholder="Enter friend's email" required />
-            <input type="submit" value="Search" />
-        </form>
-        {state.result && <p>{state.result}</p>}
-    </div>
-
-
-    async function onSubmit(data: FormInput) {
-        api.findUserByEmail(data.email).then(user => {
-            setVisibility(false);
-            api.startMessage(user._id, "")
-                .then(res => navigate('/chat/' + res.chatId))
-                .catch((err) => {
-                    if (err.message !== 'text is required') {
-                        console.error(err.message);
-                    }
-                });
-            navigate("draft/" + user._id);
+    const onSubmit = async (data: FormInput) => {
+        try {
+            const user = await api.findUserByCPin(data.cPin);
+            showModal(false);
+            navigate("draft?cPin=" + data.cPin);
             setState(s => ({ ...s, result: user.displayName }));
-        }).catch(error => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             setState(s => ({ ...s, result: error.message }));
-        });
-    }
+            setTimeout(() => {
+                setState(s => ({ ...s, result: "" }));
+            }, 2000);
+        }
+
+    };
+
+    return (
+        <div>
+            <h2>Find a friend</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input {...register("cPin")} placeholder="Enter friend's cPin" required />
+                <input type="submit" value="Search" />
+            </form>
+            {state.result && <p>{state.result}</p>}
+        </div>
+    );
 
     interface FormInput {
-        email: string;
+        cPin: string;
     }
 
     interface User {
@@ -57,5 +57,5 @@ export default function FindFriendForm({ setVisibility }: FindFriendProps) {
 
 
 interface FindFriendProps {
-    setVisibility: (value: boolean) => void;
+    showModal: (value: boolean) => void;
 }

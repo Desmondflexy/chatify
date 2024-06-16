@@ -22,7 +22,8 @@ class MyApi {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private handleError(error: any) {
-        throw new Error(error.response.data);
+        const { data } = error.response;
+        throw new Error(data.error);
     }
 
     async getMe() {
@@ -61,18 +62,27 @@ class MyApi {
         }
     }
 
-    async findUserByEmail(email: string) {
+    async findUserByCPin(cPin: string) {
         try {
-            const response = await this.server.get(`/users?email=${email}`);
+            const response = await this.server.get(`/users?cPin=${cPin}`);
             return response.data;
         } catch (error) {
             this.handleError(error);
         }
     }
 
-    async startMessage(friendId: string, text: string) {
+    async findChatWithUser(cPin: string) {
         try {
-            const response = await this.server.post(`chat/friend/${friendId}`, { text });
+            const response = await this.server.get(`/chat?cPin=${cPin}`);
+            return response.data;
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
+    async startMessage(cPin: string, text: string) {
+        try {
+            const response = await this.server.post(`chat/new?cPin=${cPin}`, { text });
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {

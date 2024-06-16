@@ -15,7 +15,10 @@ export default function MiniHeader({ user }: { user: IUser }) {
                 removeToken();
                 navigate('/auth');
             })
-            .catch(err => alert(err));
+            .catch(err => {
+                console.error(err);
+                alert(err);
+            })
     }
 
     return <header className={styles["header"]}>

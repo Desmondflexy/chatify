@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, useState, useRef} from "react";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useScrollToElement } from "../utils/hooks";
 import { useForm } from "react-hook-form";
@@ -7,17 +7,17 @@ import style from "./ChatApp.module.css";
 import viteImg from "/vite.svg";
 import socket from "../utils/socket";
 import { IoIosArrowBack } from "react-icons/io";
-import {formatDate} from "../utils"
+import { formatDate } from "../utils"
 
 export default function ChatPanel({ userId }: { userId: string }) {
     const navigate = useNavigate();
-    const [state, setState] = React.useState<State>({
+    const [state, setState] = useState<State>({
         messages: [],
         chatName: ""
     });
     const { chatId } = useParams();
     const { register, handleSubmit, reset } = useForm<ChatForm>();
-    React.useEffect(() => {
+    useEffect(() => {
         socket.emit("fetchChatMessages", { chatId, userId });
         socket.on("receivedChatMessages", (data: { messages: IMessage[], chatName: string }) => {
             setState(s => ({ ...s, messages: data.messages, chatName: data.chatName }));
@@ -26,7 +26,8 @@ export default function ChatPanel({ userId }: { userId: string }) {
         socket.on("receiveMessage", (data: IMessage) => {
             setState(s => ({ ...s, messages: [...s.messages, data] }));
         });
-        socket.on("error", (errorData: {error: string}) => {
+        socket.on("error", (errorData: { error: string }) => {
+            console.error(errorData.error);
             alert(errorData.error);
         });
         return () => {
@@ -36,32 +37,34 @@ export default function ChatPanel({ userId }: { userId: string }) {
         }
     }, [chatId, userId]);
 
-    const msgRef = React.useRef<HTMLParagraphElement | null>(null);
+    const msgRef = useRef<HTMLParagraphElement | null>(null);
     useScrollToElement(msgRef);
 
-    const messagesList = state.messages.map((message, index) => {
-        return <li key={message._id} className={personStyle(message.sender._id)}>
+    const messagesList = state.messages.map((message, index) => (
+        <li key={message._id} className={personStyle(message.sender._id)}>
             {/* <h4>{message.sender.displayName}</h4> */}
             <p ref={isLastMessage(index) ? msgRef : null}>{message.text}</p>
             <p>{formatDate(message.createdAt)}</p>
-        </li>;
-    });
+        </li>
+    ));
 
-    return <div className={style['chat-panel']}>
-        <div>
-            <IoIosArrowBack onClick={() => navigate("/chat")} />
-            <img src={viteImg} alt="profile" />
-            <h2>{state.chatName}</h2>
-            <SlOptionsVertical />
+    return (
+        <div className={style['chat-panel']}>
+            <div>
+                <IoIosArrowBack onClick={() => navigate("/chat")} />
+                <img src={viteImg} alt="profile" />
+                <h2>{state.chatName}</h2>
+                <SlOptionsVertical />
+            </div>
+            <ul>
+                {messagesList}
+            </ul>
+            <form onSubmit={handleSubmit(sendMessage)}>
+                <textarea {...register("text")} placeholder="type your message and send..." rows={1} onKeyDown={handleKeyPress}></textarea>
+                <button>Send</button>
+            </form>
         </div>
-        <ul>
-            {messagesList}
-        </ul>
-        <form onSubmit={handleSubmit(sendMessage)}>
-            <textarea {...register("text")} placeholder="type your message and send..." rows={1} onKeyDown={handleKeyPress}></textarea>
-            <button>Send</button>
-        </form>
-    </div>
+    );
 
 
     function personStyle(senderId: string) {
