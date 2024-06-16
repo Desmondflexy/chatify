@@ -26,7 +26,7 @@ export default function MiniHeader({ user }: { user: IUser }) {
         <div>
             <img src={viteImg} alt="profile-img" />
             <div>
-                <p>{user.displayName}</p>
+                <p onClick={() => navigate('/chat/profile')}>{user.displayName}</p>
                 <button onClick={logout}>Logout</button>
             </div>
         </div>
