@@ -102,6 +102,15 @@ class MyApi {
             this.handleError(error);
         }
     }
+
+    async updateUser(data: FormData) {
+        try {
+            const response = await this.server.put('/users/me', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+            return response.data;
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
 }
 
 export default new MyApi();

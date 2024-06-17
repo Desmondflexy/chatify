@@ -47,7 +47,7 @@ export default function UserChatList({ userId }: { userId: string }) {
 
     const chatsList = filteredData.map((chat) => (
         <li key={chat.id} onClick={() => navigate(chat.id)}>
-            <img src={viteImg} alt="AB" />
+            <img src={chat.picture ? chat.picture : viteImg} alt="AB" />
             <div>
                 <h3>{chat.chatName}</h3>
                 <div>

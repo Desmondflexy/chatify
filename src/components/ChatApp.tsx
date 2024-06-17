@@ -7,6 +7,7 @@ import ChatPanel from "./ChatPanel";
 import { Route, Routes } from "react-router-dom";
 import DraftMessagePanel from "./DraftMessagePanel";
 import UserProfile from "./UserProfile";
+import NotFound from "./NotFound";
 
 export default function ChatApp() {
     const user = useAuthenticator();
@@ -20,6 +21,7 @@ export default function ChatApp() {
             <Route path="profile" element={<UserProfile userId={user.id} />} />
             <Route path=":chatId" element={<ChatPanel userId={user.id} />} />
             <Route path="draft" element={<DraftMessagePanel />} />
+            <Route path="*" element={< NotFound />} />
         </Routes>
     </div>
 }
